@@ -1,0 +1,734 @@
+:root {
+  --text: #ECEFF4;
+  --muted: #D8DEE9;
+  --accent: #88C0D0;
+  --clock-color: #ECEFF4;
+
+  --faint: color-mix(in srgb, var(--muted) 60%, transparent);
+  --line: color-mix(in srgb, var(--muted) 18%, transparent);
+
+  --panel: rgba(26, 31, 41, 0.96);
+  --panel-2: rgba(37, 43, 55, 0.96);
+
+  --wallpaper-blur: 0px;
+  --wallpaper-darkness: 0.43;
+
+  --font: "JetBrains Mono", "Iosevka", "Cascadia Mono", "Noto Sans Mono",
+          "DejaVu Sans Mono", monospace;
+  --clock-font: var(--font);
+
+  --clock-size: 150px;
+  --date-size: 13px;
+  --quote-size: 17px;
+  --search-size: 16px;
+  --launcher-size: 13px;
+
+  --settings-panel-width: 420px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #1b1f29;
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 400;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#background,
+#shade {
+  position: fixed;
+  inset: 0;
+}
+
+#background {
+  z-index: -2;
+  background: linear-gradient(135deg, #202632, #12161d);
+  background-size: cover;
+  background-position: center;
+  filter: blur(var(--wallpaper-blur));
+  transform: scale(1.06);
+  transition: opacity 650ms ease, filter 120ms ease;
+}
+
+#shade {
+  z-index: -1;
+  background: rgba(12, 15, 20, var(--wallpaper-darkness));
+  transition: background 120ms ease;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 64px));
+  text-align: center;
+}
+
+#clock {
+  color: var(--clock-color);
+  font-family: var(--clock-font);
+  font-size: clamp(48px, 10vw, var(--clock-size));
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  font-weight: 300;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+#date {
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: var(--date-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+#quote-wrap {
+  min-height: 42px;
+  margin: 28px auto 26px;
+  color: var(--muted);
+  font-size: var(--quote-size);
+  line-height: 1.6;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  transition: opacity 220ms ease;
+}
+
+.quote-mark {
+  color: var(--faint);
+}
+
+#search-form {
+  display: flex;
+  align-items: center;
+  width: min(600px, 100%);
+  margin: 0 auto;
+  padding: 7px 2px;
+  border-bottom: 1px solid rgba(236, 239, 244, 0.52);
+  transition: border-color 140ms ease;
+}
+
+#search-form:focus-within {
+  border-color: var(--accent);
+}
+
+.prompt {
+  flex: 0 0 auto;
+  margin-right: 11px;
+  color: var(--accent);
+  font-size: calc(var(--search-size) + 1px);
+}
+
+#search {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  caret-color: var(--accent);
+  font: inherit;
+  font-size: var(--search-size);
+}
+
+#search::placeholder {
+  color: color-mix(in srgb, var(--muted) 56%, transparent);
+}
+
+#launcher {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  width: min(1100px, calc(100vw - 72px));
+  font-size: var(--launcher-size);
+  letter-spacing: 0.03em;
+}
+
+#launcher a,
+#credit a {
+  color: var(--muted);
+  text-decoration: none;
+  text-shadow: 0 1px 7px rgba(0, 0, 0, 0.7);
+  transition: color 120ms ease;
+}
+
+#launcher a::before {
+  content: "[";
+  color: var(--faint);
+}
+
+#launcher a::after {
+  content: "]";
+  color: var(--faint);
+}
+
+#launcher a:hover,
+#launcher a:focus-visible,
+#credit a:hover,
+#credit a:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+#credit {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  color: rgba(216, 222, 233, 0.54);
+  font-size: 9px;
+  letter-spacing: 0.02em;
+}
+
+#credit a {
+  color: rgba(216, 222, 233, 0.68);
+}
+
+/* Invisible 28px hotspot in the absolute top-left corner. */
+#settings-hotspot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#settings-hotspot:focus-visible {
+  opacity: 1;
+  outline: 1px solid var(--accent);
+  background: rgba(136, 192, 208, 0.16);
+}
+
+#settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: transparent;
+}
+
+#settings-panel {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: min(var(--settings-panel-width), calc(100vw - 80px));
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 24px 22px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: 14px 0 42px rgba(0, 0, 0, 0.38);
+}
+
+/*
+ * Keep the live preview visible beside the settings drawer.
+ * The wallpaper remains full-window; the page content re-centers in the
+ * remaining space while the drawer is open.
+ */
+main {
+  transition: margin-left 160ms ease, width 160ms ease;
+}
+
+body.settings-open main {
+  width: calc(100% - var(--settings-panel-width));
+  margin-left: var(--settings-panel-width);
+}
+
+.settings-header,
+.section-title-row,
+.settings-footer,
+.footer-actions,
+.password-row {
+  display: flex;
+  align-items: center;
+}
+
+.settings-header,
+.section-title-row,
+.settings-footer {
+  justify-content: space-between;
+}
+
+.settings-kicker {
+  margin-bottom: 2px;
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#settings-panel h1,
+#settings-panel h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+#settings-panel h1 {
+  font-size: 25px;
+}
+
+#settings-panel h2 {
+  color: var(--muted);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.settings-section {
+  margin-top: 25px;
+  padding-top: 21px;
+  border-top: 1px solid var(--line);
+}
+
+.range-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 54px;
+  align-items: center;
+  gap: 14px;
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.range-row input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.range-row output {
+  color: var(--accent);
+  text-align: right;
+}
+
+.field-label {
+  display: block;
+  margin: 18px 0 7px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.settings-input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line);
+  outline: none;
+  padding: 9px 10px;
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.settings-input:focus {
+  border-color: var(--accent);
+}
+
+.settings-input::placeholder {
+  color: rgba(216, 222, 233, 0.38);
+}
+
+.password-row {
+  gap: 10px;
+}
+
+.password-row .settings-input {
+  flex: 1;
+}
+
+.text-button,
+.save-button {
+  border: 0;
+  padding: 4px 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.text-button:hover,
+.text-button:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+.text-button.small {
+  flex: 0 0 auto;
+  font-size: 11px;
+}
+
+.text-button.danger:hover,
+.text-button.danger:focus-visible {
+  color: #BF616A;
+}
+
+.save-button {
+  padding: 8px 14px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.save-button:hover,
+.save-button:focus-visible {
+  background: rgba(136, 192, 208, 0.12);
+  outline: none;
+}
+
+.editable-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.editable-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel-2) 72%, transparent);
+}
+
+.editable-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.editable-card-title {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mini-label {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-row,
+.collection-row {
+  grid-template-columns: 1fr;
+}
+
+.remove-row {
+  width: auto;
+  color: var(--faint);
+  justify-self: end;
+}
+
+.settings-footer {
+  position: sticky;
+  bottom: -22px;
+  z-index: 2;
+  margin: 26px -24px -22px;
+  padding: 16px 24px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.footer-actions {
+  gap: 18px;
+}
+
+@media (max-width: 650px) {
+  .center {
+    top: 44%;
+  }
+
+  #launcher {
+    bottom: 24px;
+    gap: 7px 15px;
+  }
+
+  #credit {
+    display: none !important;
+  }
+
+  #settings-panel {
+    width: min(92vw, var(--settings-panel-width));
+    padding: 20px 16px;
+  }
+
+  body.settings-open main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .settings-footer {
+    bottom: -20px;
+    margin: 24px -16px -20px;
+    padding: 14px 16px 16px;
+  }
+
+  .range-row {
+    grid-template-columns: 82px 1fr 48px;
+    gap: 8px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+ * APPEARANCE SETTINGS
+ * --------------------------------------------------------- */
+
+.appearance-fonts {
+  margin-top: 14px;
+}
+
+.color-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 22px;
+  margin-top: 20px;
+}
+
+.color-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) 42px 82px;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.color-row input[type="color"] {
+  width: 38px;
+  height: 28px;
+  border: 1px solid var(--line);
+  padding: 2px;
+  background: var(--panel-2);
+  cursor: pointer;
+}
+
+.color-row output {
+  color: var(--accent);
+  text-align: right;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.size-settings {
+  margin-top: 20px;
+}
+
+@media (max-width: 650px) {
+  .color-settings {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .color-row {
+    grid-template-columns: 1fr 42px 82px;
+  }
+}
+
+
+/* Hold Alt and move over the top-left corner while troubleshooting:
+   Firefox does not expose modifier state to CSS, so this remains invisible by default.
+   The hotspot can also be opened with Ctrl+Shift+, (added in script.js). */
+
+
+.font-select {
+  cursor: pointer;
+}
+
+.font-select option {
+  background: #252b37;
+  color: #ECEFF4;
+}
+
+.settings-hint {
+  margin: 8px 0 0;
+  color: color-mix(in srgb, var(--muted) 58%, transparent);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.settings-hint code {
+  color: var(--accent);
+  font-family: var(--font);
+}
+
+
+/* ---------------------------------------------------------
+ * SETTINGS ACTION ROWS
+ * --------------------------------------------------------- */
+
+.inline-control-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 28px;
+  margin-top: 10px;
+}
+
+.inline-status {
+  min-width: 0;
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.inline-status.ok {
+  color: var(--accent);
+}
+
+.inline-status.error {
+  color: #BF616A;
+}
+
+.wallpaper-action-row {
+  margin-top: 14px;
+}
+
+
+/* ---------------------------------------------------------
+ * LEFT-DRAWER SETTINGS LAYOUT
+ * --------------------------------------------------------- */
+
+#settings-panel .color-settings {
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+#settings-panel .color-row {
+  grid-template-columns: minmax(105px, 1fr) 42px 78px;
+}
+
+
+@media (min-width: 651px) and (max-width: 980px) {
+  :root {
+    --settings-panel-width: 380px;
+  }
+}
+
+@media (max-width: 650px) {
+  :root {
+    --settings-panel-width: 420px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+ * RC3 EDITOR CARDS
+ * --------------------------------------------------------- */
+
+.editable-card .settings-input {
+  width: 100%;
+}
+
+.editable-card .settings-input + .mini-label {
+  margin-top: 2px;
+}
+
+.editable-card + .editable-card {
+  margin-top: 0;
+}
+
+
+/* ---------------------------------------------------------
+ * RC4 CUSTOM FONT CONTROLS
+ * --------------------------------------------------------- */
+
+.custom-font-wrap {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 14px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+}
+
+.custom-font-wrap[hidden] {
+  display: none !important;
+}
+
+.custom-font-input {
+  width: 100%;
+}
+
+
+/* ---------------------------------------------------------
+ * RC5 QUOTE EDITOR
+ * --------------------------------------------------------- */
+
+.quote-row {
+  grid-template-columns: 1fr;
+}
+
+.quote-text {
+  width: 100%;
+  min-height: 74px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+
+/* ---------------------------------------------------------
+ * RC7 SEARCH SETTINGS
+ * --------------------------------------------------------- */
+
+.custom-search-wrap {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+}
+
+.custom-search-wrap[hidden] {
+  display: none !important;
+}
+
+
+/* ---------------------------------------------------------
+ * RC8 UNSPLASH PRIVACY / CONSENT
+ * --------------------------------------------------------- */
+
+.unsplash-privacy-note {
+  margin-top: 8px;
+}
+
+#enable-unsplash:disabled {
+  opacity: 0.58;
+  cursor: default;
+}

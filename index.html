@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Tab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="background" aria-hidden="true"></div>
+  <div id="shade" aria-hidden="true"></div>
+
+  <button id="settings-hotspot" type="button" aria-label="Open startpage settings"></button>
+
+  <main>
+    <section class="center">
+      <div id="clock" aria-label="Current time">00:00</div>
+      <div id="date"></div>
+
+      <div id="quote-wrap" hidden>
+        <span class="quote-mark">“</span>
+        <span id="quote"></span>
+        <span class="quote-mark">”</span>
+      </div>
+
+      <form id="search-form" autocomplete="off">
+        <span class="prompt">&gt;</span>
+        <input
+          id="search"
+          type="text"
+          name="q"
+          spellcheck="false"
+          autocomplete="off"
+          autofocus
+          aria-label="Search"
+          placeholder="search"
+        >
+      </form>
+    </section>
+
+    <nav id="launcher" aria-label="Sites"></nav>
+
+    <div id="credit" hidden>
+      <span>photo by </span>
+      <a id="credit-photographer" target="_blank" rel="noreferrer"></a>
+      <span> / </span>
+      <a id="credit-unsplash" target="_blank" rel="noreferrer">unsplash</a>
+    </div>
+  </main>
+
+  <div id="settings-overlay" hidden>
+    <form id="settings-panel" autocomplete="off">
+      <div class="settings-header">
+        <div>
+          <div class="settings-kicker">startpage</div>
+          <h1>settings</h1>
+        </div>
+        <button id="settings-close" class="text-button" type="button">[close]</button>
+      </div>
+
+
+      <section class="settings-section">
+        <h2>appearance</h2>
+
+        <div class="appearance-fonts">
+          <label class="field-label" for="setting-font-family">page font</label>
+          <select
+            id="setting-font-family"
+            class="settings-input font-select"
+          ></select>
+
+          <div id="page-custom-font-wrap" class="custom-font-wrap" hidden>
+            <label class="mini-label" for="page-custom-font">custom page font</label>
+            <input
+              id="page-custom-font"
+              class="settings-input custom-font-input"
+              type="text"
+              placeholder="Atkinson Hyperlegible"
+              spellcheck="false"
+            >
+          </div>
+
+          <label class="field-label" for="setting-clock-font-family">clock font</label>
+          <select
+            id="setting-clock-font-family"
+            class="settings-input font-select"
+          ></select>
+
+          <div id="clock-custom-font-wrap" class="custom-font-wrap" hidden>
+            <label class="mini-label" for="clock-custom-font">custom clock font</label>
+            <input
+              id="clock-custom-font"
+              class="settings-input custom-font-input"
+              type="text"
+              placeholder="Atkinson Hyperlegible"
+              spellcheck="false"
+            >
+          </div>
+
+          <p class="settings-hint">
+            Presets use local/system fonts only. Choose <code>Custom…</code> to
+            type any installed font family name, or a full CSS font stack.
+          </p>
+        </div>
+
+        <div class="color-settings">
+          <label class="color-row" for="setting-text-color">
+            <span>main text</span>
+            <input id="setting-text-color" type="color">
+            <output id="setting-text-color-value">#ECEFF4</output>
+          </label>
+
+          <label class="color-row" for="setting-muted-color">
+            <span>secondary text</span>
+            <input id="setting-muted-color" type="color">
+            <output id="setting-muted-color-value">#D8DEE9</output>
+          </label>
+
+          <label class="color-row" for="setting-accent-color">
+            <span>accent</span>
+            <input id="setting-accent-color" type="color">
+            <output id="setting-accent-color-value">#88C0D0</output>
+          </label>
+
+          <label class="color-row" for="setting-clock-color">
+            <span>clock</span>
+            <input id="setting-clock-color" type="color">
+            <output id="setting-clock-color-value">#ECEFF4</output>
+          </label>
+        </div>
+
+        <div class="size-settings">
+          <label class="range-row" for="setting-clock-size">
+            <span>clock size</span>
+            <input id="setting-clock-size" type="range" min="48" max="220" step="1">
+            <output id="setting-clock-size-value">150px</output>
+          </label>
+
+          <label class="range-row" for="setting-date-size">
+            <span>date size</span>
+            <input id="setting-date-size" type="range" min="8" max="28" step="1">
+            <output id="setting-date-size-value">13px</output>
+          </label>
+
+          <label class="range-row" for="setting-quote-size">
+            <span>quote size</span>
+            <input id="setting-quote-size" type="range" min="10" max="36" step="1">
+            <output id="setting-quote-size-value">17px</output>
+          </label>
+
+          <label class="range-row" for="setting-search-size">
+            <span>search size</span>
+            <input id="setting-search-size" type="range" min="10" max="32" step="1">
+            <output id="setting-search-size-value">16px</output>
+          </label>
+
+          <label class="range-row" for="setting-launcher-size">
+            <span>quicklink size</span>
+            <input id="setting-launcher-size" type="range" min="8" max="30" step="1">
+            <output id="setting-launcher-size-value">13px</output>
+          </label>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>search</h2>
+
+        <label class="field-label" for="setting-search-engine">search engine</label>
+        <select
+          id="setting-search-engine"
+          class="settings-input"
+        >
+          <option value="https://duckduckgo.com/?q=%s">DuckDuckGo</option>
+          <option value="https://www.google.com/search?q=%s">Google</option>
+          <option value="https://search.brave.com/search?q=%s">Brave Search</option>
+          <option value="https://www.startpage.com/sp/search?query=%s">Startpage</option>
+          <option value="https://kagi.com/search?q=%s">Kagi</option>
+          <option value="https://www.bing.com/search?q=%s">Bing</option>
+          <option value="__custom__">Custom...</option>
+        </select>
+
+        <div id="custom-search-wrap" class="custom-search-wrap" hidden>
+          <label class="mini-label" for="custom-search-url">custom search URL</label>
+          <input
+            id="custom-search-url"
+            class="settings-input"
+            type="url"
+            placeholder="https://example.com/search?q=%s"
+            spellcheck="false"
+          >
+          <p class="settings-hint">
+            Use <code>%s</code> where the search terms should go.
+          </p>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>wallpaper</h2>
+
+        <label class="range-row" for="setting-blur">
+          <span>blur</span>
+          <input id="setting-blur" type="range" min="0" max="30" step="1">
+          <output id="setting-blur-value">0px</output>
+        </label>
+
+        <label class="range-row" for="setting-darkness">
+          <span>darkness</span>
+          <input id="setting-darkness" type="range" min="0" max="90" step="1">
+          <output id="setting-darkness-value">43%</output>
+        </label>
+
+        <label class="field-label" for="setting-unsplash-key">Unsplash access key</label>
+        <div class="password-row">
+          <input id="setting-unsplash-key" class="settings-input" type="password" spellcheck="false" autocomplete="off">
+          <button id="toggle-key" class="text-button small" type="button">[show]</button>
+        </div>
+
+        <p class="settings-hint unsplash-privacy-note">
+          Stored locally in Firefox. Sent only to <code>api.unsplash.com</code>
+          when fetching wallpapers. Never sent to the developer.
+        </p>
+
+        <div class="inline-control-row">
+          <button id="enable-unsplash" class="text-button" type="button">[enable Unsplash]</button>
+          <span id="unsplash-permission-status" class="inline-status">not enabled</span>
+        </div>
+
+        <p class="settings-hint">
+          Firefox may describe this as sharing authentication information.
+          That permission only allows this add-on to send your key directly to
+          Unsplash for wallpaper requests.
+        </p>
+
+        <label class="field-label" for="setting-fallback">fallback background URL</label>
+        <input id="setting-fallback" class="settings-input" type="url" spellcheck="false" placeholder="https://example.com/wallpaper.jpg">
+
+        <div class="inline-control-row wallpaper-action-row">
+          <button id="new-wallpaper" class="text-button" type="button">[new wallpaper]</button>
+          <span id="wallpaper-status" class="inline-status">
+            save does not fetch
+          </span>
+        </div>
+
+        <p class="settings-hint">
+          Saving settings keeps the current cached wallpaper. Unsplash changes
+          take effect on the next scheduled cycle, or when you deliberately use
+          <code>[new wallpaper]</code>.
+        </p>
+      </section>
+
+      <section class="settings-section">
+        <div class="section-title-row">
+          <h2>Unsplash collections</h2>
+          <button id="add-collection" class="text-button" type="button">[+ add]</button>
+        </div>
+        <div id="settings-collections" class="editable-list"></div>
+      </section>
+
+      <section class="settings-section">
+        <div class="section-title-row">
+          <h2>quotes</h2>
+          <button id="add-quote" class="text-button" type="button">[+ add]</button>
+        </div>
+        <div id="settings-quotes" class="editable-list"></div>
+        <p class="settings-hint">
+          Leave this empty if you do not want a quote shown on the startpage.
+        </p>
+      </section>
+
+      <section class="settings-section">
+        <div class="section-title-row">
+          <h2>quicklinks</h2>
+          <button id="add-site" class="text-button" type="button">[+ add]</button>
+        </div>
+        <div id="settings-sites" class="editable-list"></div>
+      </section>
+
+      <div class="settings-footer">
+        <button id="reset-settings" class="text-button danger" type="button">[reset]</button>
+        <div class="footer-actions">
+          <button id="cancel-settings" class="text-button" type="button">[cancel]</button>
+          <button class="save-button" type="submit">save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <template id="quote-row-template">
+    <div class="editable-card quote-row">
+      <div class="editable-card-header">
+        <span class="editable-card-title">quote</span>
+        <button class="remove-row text-button" type="button" aria-label="Remove quote">[remove]</button>
+      </div>
+
+      <label class="mini-label" for="">text</label>
+      <textarea
+        class="settings-input quote-text"
+        rows="3"
+        placeholder="Write something worth seeing again."
+        spellcheck="true"
+      ></textarea>
+    </div>
+  </template>
+
+  <template id="site-row-template">
+    <div class="editable-card site-row">
+      <div class="editable-card-header">
+        <span class="editable-card-title">quicklink</span>
+        <button class="remove-row text-button" type="button" aria-label="Remove quicklink">[remove]</button>
+      </div>
+
+      <label class="mini-label" for="">name</label>
+      <input class="settings-input site-name" type="text" placeholder="youtube" spellcheck="false">
+
+      <label class="mini-label" for="">url</label>
+      <input class="settings-input site-url" type="url" placeholder="https://youtube.com" spellcheck="false">
+    </div>
+  </template>
+
+  <template id="collection-row-template">
+    <div class="editable-card collection-row">
+      <div class="editable-card-header">
+        <span class="editable-card-title">collection</span>
+        <button class="remove-row text-button" type="button" aria-label="Remove collection">[remove]</button>
+      </div>
+
+      <label class="mini-label" for="">URL or ID</label>
+      <input class="settings-input collection-url" type="text" placeholder="Unsplash collection URL or ID" spellcheck="false">
+    </div>
+  </template>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
