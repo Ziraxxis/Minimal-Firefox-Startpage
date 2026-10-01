@@ -1,4 +1,4 @@
-# Minimal Firefox Startpage
+# Minimal Startpage for Firefox
 
 A clean little new tab page for Firefox. Just the useful stuff, without turning every tab into a dashboard.
 
