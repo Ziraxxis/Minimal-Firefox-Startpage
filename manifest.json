@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Minimal Firefox Startpage",
+  "name": "Minimal Startpage for Firefox",
   "version": "1.6.0",
   "description": "Minimal clock, quotes, search, launcher, appearance settings, and rate-limit-conscious rotating Unsplash backgrounds.",
   "browser_specific_settings": {
