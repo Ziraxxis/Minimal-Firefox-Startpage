@@ -1,6 +1,6 @@
 # Privacy
 
-Minimal Firefox Startpage does not collect analytics, telemetry, advertising data, or personal information for the developer.
+Minimal Startpage for Firefox does not collect analytics, telemetry, advertising data, or personal information for the developer.
 
 Search terms are sent only to the search engine selected by the user.
 
